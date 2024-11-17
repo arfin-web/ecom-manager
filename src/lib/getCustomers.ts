@@ -7,7 +7,6 @@ const getCustomers = async () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            cache: 'no-store'
         })
         let result = await data.json()
         const customers = result.data
