@@ -22,7 +22,7 @@ const dashboardMenus = [
         icon: <ShoppingCart className="h-4 w-4" />,
         link: "/orders",
         badge: true,
-        badgeValue: `${allOrders.length}`
+        badgeValue: `${allOrders?.length || 0}`
     },
     {
         id: 3,

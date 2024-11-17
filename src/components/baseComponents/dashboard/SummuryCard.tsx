@@ -23,7 +23,7 @@ const SummuryCard = () => {
         {
             id: 2,
             title: "Total Customers",
-            value: `${customers.length || 0}`,
+            value: `${customers?.length || 0}`,
             subDetails: "+180.1% from last month",
             sign: "+",
             icon: <Users className="h-4 w-4 text-muted-foreground" />
