@@ -1,3 +1,5 @@
+"use client"
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
     Activity,
@@ -5,11 +7,10 @@ import {
     DollarSign,
     Users,
 } from "lucide-react"
-import getCustomers from "@/lib/getCustomers"
+import { useCustomers } from "@/lib/useCustomers"
 
-const SummuryCard = async () => {
-    const customers = await getCustomers()
-
+const SummuryCard = () => {
+    const { customers } = useCustomers()
     const dashboardSummury = [
         {
             id: 1,
