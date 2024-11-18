@@ -8,6 +8,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from 'react-toastify';
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Register = () => {
     const {
@@ -37,7 +38,7 @@ const Register = () => {
                     closeOnClick: true,
                 })
                 reset();
-                router.push('/login');
+                router.push('/');
             } else {
                 toast.error(result.message || "Error registering user", {
                     position: "top-center",
@@ -100,8 +101,16 @@ const Register = () => {
                         </div>
 
                         <Button type="submit" className="mt-3">
-                            Confirm
+                            Sign Up
                         </Button>
+
+                        <div className="mt-4 text-center text-sm">
+                            Already have an account?{" "}
+                            <Link href="/" className="underline text-primary">
+                                Login
+                            </Link>
+                        </div>
+
                     </form>
                 </div>
             </div>

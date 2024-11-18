@@ -119,11 +119,11 @@ export function LoginForm() {
                     <CardContent className="space-y-2">
                         <div className="space-y-1">
                             <Label htmlFor="email">Email</Label>
-                            <Input id="email" defaultValue={adminLoginCredentials.email} />
+                            <Input id="email" defaultValue={adminLoginCredentials.email} readOnly />
                         </div>
                         <div className="space-y-1">
                             <Label htmlFor="password">Password</Label>
-                            <Input id="password" defaultValue={adminLoginCredentials.password} />
+                            <Input id="password" defaultValue={adminLoginCredentials.password} readOnly />
                         </div>
                     </CardContent>
                 </Card>

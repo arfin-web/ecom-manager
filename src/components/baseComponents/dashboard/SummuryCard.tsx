@@ -8,14 +8,17 @@ import {
     Users,
 } from "lucide-react"
 import { useCustomers } from "@/lib/useCustomers"
+import { useProducts } from "@/lib/useProducts"
+import allOrders from "@/data/allOrders"
 
 const SummuryCard = () => {
     const { customers } = useCustomers()
+    const { products } = useProducts()
     const dashboardSummury = [
         {
             id: 1,
             title: "Total Revenue",
-            value: 45231.89,
+            value: 20,
             subDetails: "+20.1% from last month",
             sign: "$",
             icon: <DollarSign className="h-4 w-4 text-muted-foreground" />
@@ -31,7 +34,7 @@ const SummuryCard = () => {
         {
             id: 3,
             title: "Sales",
-            value: 12234,
+            value: `${allOrders?.length || 0}`,
             subDetails: "+19% from last month",
             sign: "+",
             icon: <CreditCard className="h-4 w-4 text-muted-foreground" />
@@ -39,7 +42,7 @@ const SummuryCard = () => {
         {
             id: 4,
             title: "Active Now",
-            value: 573,
+            value: `${products?.length || 0}`,
             subDetails: "+201 since last hour",
             sign: "+",
             icon: <Activity className="h-4 w-4 text-muted-foreground" />

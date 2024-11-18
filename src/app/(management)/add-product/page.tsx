@@ -1,290 +1,131 @@
-import Image from "next/image"
-import {
-    ChevronLeft,
-    PlusCircle,
-} from "lucide-react"
+"use client"
 
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
 import { Textarea } from "@/components/ui/textarea"
-import {
-    ToggleGroup,
-    ToggleGroupItem,
-} from "@/components/ui/toggle-group"
-import Link from "next/link"
-import productVarients from "@/data/productVarients"
-import categories from "@/data/categories"
-import subCategories from "@/data/subCategories"
+import { useForm } from "react-hook-form"
+import { getBaseUrl } from "@/helpers/config/envConfig"
+import { ToastContainer, toast } from 'react-toastify';
+import { useRouter } from "next/navigation"
 
-export default function AddProduct() {
+type FormData = {
+    name: string;
+    description: string;
+    price: number;
+    rate: string;
+};
+
+const AddProduct = () => {
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
+    const router = useRouter();
+
+    const onSubmit = async (data: FormData) => {
+        try {
+            const response = await fetch(`${getBaseUrl()}/products`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`, // Adjust if you’re handling auth
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                toast.success("Product added successfully!", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                })
+                reset();
+                router.push("/products")
+            } else {
+                toast.error(result.message || "Failed to add Product.", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                })
+            }
+        } catch (error) {
+            console.error("Error adding Product:", error);
+            toast.error("An error occurred while adding the Product.", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+            })
+        }
+    };
+
     return (
-        <div className="flex min-h-screen w-full flex-col bg-muted/40">
-            <div className="flex flex-col sm:gap-4 sm:py-4">
-                <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-                    <form>
-                        <div className="mx-auto grid max-w-[59rem] flex-1 auto-rows-max gap-4">
-                            <div className="flex items-center gap-4">
-                                <Link href="/products">
-                                    <Button variant="outline" size="icon" className="h-7 w-7">
-                                        <ChevronLeft className="h-4 w-4" />
-                                        <span className="sr-only">Back</span>
-                                    </Button>
-                                </Link>
-                                <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                                    Add Product
-                                </h1>
-                                <Badge variant="outline" className="ml-auto sm:ml-0">
-                                    In stock
-                                </Badge>
-                            </div>
-                            <div className="grid gap-4 grid-cols-1 lg:grid-cols-3 lg:gap-8">
-                                <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-                                    <Card x-chunk="dashboard-07-chunk-0" className="w-80 lg:w-full">
-                                        <CardHeader>
-                                            <CardTitle>Product Details</CardTitle>
-                                            <CardDescription>
-                                                Lipsum dolor sit amet, consectetur adipiscing elit
-                                            </CardDescription>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <div className="grid gap-6">
-                                                <div className="grid gap-3">
-                                                    <Label htmlFor="name">Name</Label>
-                                                    <Input
-                                                        id="name"
-                                                        type="text"
-                                                        className="w-full"
-                                                        defaultValue="Gamer Gear Pro Controller"
-                                                    />
-                                                </div>
-                                                <div className="grid gap-3">
-                                                    <Label htmlFor="description">Description</Label>
-                                                    <Textarea
-                                                        id="description"
-                                                        defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc."
-                                                        className="min-h-32"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                    <Card x-chunk="dashboard-07-chunk-1" className="w-80 lg:w-full">
-                                        <CardHeader>
-                                            <CardTitle>Stock</CardTitle>
-                                            <CardDescription>
-                                                Lipsum dolor sit amet, consectetur adipiscing elit
-                                            </CardDescription>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <Table>
-                                                <TableHeader>
-                                                    <TableRow>
-                                                        <TableHead className="w-[100px]">SKU</TableHead>
-                                                        <TableHead>Stock</TableHead>
-                                                        <TableHead>Price</TableHead>
-                                                        <TableHead className="w-[100px]">Size</TableHead>
-                                                    </TableRow>
-                                                </TableHeader>
-                                                <TableBody>
-                                                    {
-                                                        productVarients.map((varient) => (
-                                                            <TableRow key={varient.id}>
-                                                                <TableCell className="font-semibold">
-                                                                    {varient.sku}
-                                                                </TableCell>
-                                                                <TableCell>
-                                                                    <Label htmlFor="stock-1" className="sr-only">
-                                                                        Stock
-                                                                    </Label>
-                                                                    <Input
-                                                                        id="stock-1"
-                                                                        type="number"
-                                                                        defaultValue="100"
-                                                                        className="w-24 lg:w-full"
-                                                                    />
-                                                                </TableCell>
-                                                                <TableCell>
-                                                                    <Label htmlFor="price-1" className="sr-only">
-                                                                        Price
-                                                                    </Label>
-                                                                    <Input
-                                                                        id="price-1"
-                                                                        type="number"
-                                                                        defaultValue="99.99"
-                                                                        className="w-24 lg:w-full"
-                                                                    />
-                                                                </TableCell>
-                                                                <TableCell>
-                                                                    <ToggleGroup
-                                                                        type="single"
-                                                                        defaultValue="s"
-                                                                        variant="outline"
-                                                                    >
-                                                                        <ToggleGroupItem value="s">S</ToggleGroupItem>
-                                                                        <ToggleGroupItem value="m">M</ToggleGroupItem>
-                                                                        <ToggleGroupItem value="l">L</ToggleGroupItem>
-                                                                        <ToggleGroupItem value="xl">Xl</ToggleGroupItem>
-                                                                        <ToggleGroupItem value="xxl">XXL</ToggleGroupItem>
-                                                                    </ToggleGroup>
-                                                                </TableCell>
-                                                            </TableRow>
-                                                        ))
-                                                    }
-                                                </TableBody>
-                                            </Table>
-                                        </CardContent>
-                                        <CardFooter className="justify-center border-t p-4">
-                                            <Button size="sm" variant="ghost" className="gap-1">
-                                                <PlusCircle className="h-3.5 w-3.5" />
-                                                Add Variant
-                                            </Button>
-                                        </CardFooter>
-                                    </Card>
-                                    <Card x-chunk="dashboard-07-chunk-2">
-                                        <CardHeader>
-                                            <CardTitle>Product Category</CardTitle>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <div className="grid gap-6 sm:grid-cols-3">
-                                                <div className="grid gap-3">
-                                                    <Label htmlFor="category">Category</Label>
-                                                    <Select>
-                                                        <SelectTrigger
-                                                            id="category"
-                                                            aria-label="Select category"
-                                                        >
-                                                            <SelectValue placeholder="Select category" />
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            {
-                                                                categories.map((category) => (
-                                                                    <SelectItem key={category.id} value={category.title.toLowerCase()}>{category.title}</SelectItem>
-                                                                ))
-                                                            }
-                                                        </SelectContent>
-                                                    </Select>
-                                                </div>
-                                                <div className="grid gap-3">
-                                                    <Label htmlFor="subcategory">
-                                                        Subcategory (optional)
-                                                    </Label>
-                                                    <Select>
-                                                        <SelectTrigger
-                                                            id="subcategory"
-                                                            aria-label="Select subcategory"
-                                                        >
-                                                            <SelectValue placeholder="Select subcategory" />
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            {
-                                                                subCategories.map((category) => (
-                                                                    <SelectItem key={category.id} value={category.title.toLowerCase()}>{category.title}</SelectItem>
-                                                                ))
-                                                            }
-                                                        </SelectContent>
-                                                    </Select>
-                                                </div>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-                                <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
-                                    <Card x-chunk="dashboard-07-chunk-3">
-                                        <CardHeader>
-                                            <CardTitle>Product Status</CardTitle>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <div className="grid gap-6">
-                                                <div className="grid gap-3">
-                                                    <Label htmlFor="status">Status</Label>
-                                                    <Select>
-                                                        <SelectTrigger id="status" aria-label="Select status">
-                                                            <SelectValue placeholder="Select status" />
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            <SelectItem value="draft">Draft</SelectItem>
-                                                            <SelectItem value="published">Active</SelectItem>
-                                                            <SelectItem value="archived">Archived</SelectItem>
-                                                        </SelectContent>
-                                                    </Select>
-                                                </div>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                    <Card
-                                        className="overflow-hidden" x-chunk="dashboard-07-chunk-4"
-                                    >
-                                        <CardHeader>
-                                            <CardTitle>Product Images</CardTitle>
-                                            <CardDescription>
-                                                Lipsum dolor sit amet, consectetur adipiscing elit
-                                            </CardDescription>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <div className="grid gap-2">
-                                                <Image
-                                                    alt="Product image"
-                                                    className="aspect-square w-full rounded-md object-cover"
-                                                    height="300"
-                                                    src="/placeholder.svg"
-                                                    width="300"
-                                                />
-                                                <Label htmlFor="picture">Upload Images</Label>
-                                                <Input id="picture" type="file" />
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                    <Card x-chunk="dashboard-07-chunk-5">
-                                        <CardHeader>
-                                            <CardTitle>Archive Product</CardTitle>
-                                            <CardDescription>
-                                                Lipsum dolor sit amet, consectetur adipiscing elit.
-                                            </CardDescription>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <div></div>
-                                            <Button size="sm" variant="secondary">
-                                                Archive Product
-                                            </Button>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-                            </div>
-                            <div className="flex items-center justify-end gap-2">
-                                <Button variant="outline" size="sm">
-                                    Discard
-                                </Button>
-                                <Button size="sm">Save Product</Button>
-                            </div>
+        <>
+            <Card className="border-none shadow-md">
+                <CardHeader>
+                    <CardTitle className="text-2xl">Add New Product</CardTitle>
+                    <CardDescription>Provide Accurate Information</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <form className="grid gap-4" onSubmit={handleSubmit(onSubmit)}>
+
+                        <div className="grid gap-2">
+                            <Label htmlFor="name">Name</Label>
+                            <Input
+                                id="name"
+                                type="text"
+                                placeholder="e.g., Apple Watch"
+                                {...register("name", { required: "Name is required" })}
+                            />
                         </div>
+
+                        <div className="grid gap-2">
+                            <Label htmlFor="description">Description</Label>
+                            <Textarea
+                                id="description"
+                                placeholder="Type your Product Description here."
+                                {...register("description", { required: "Description is required" })}
+                            />
+                        </div>
+
+                        <div className="grid gap-2">
+                            <Label htmlFor="price">Price</Label>
+                            <Input
+                                id="price"
+                                type="number"
+                                placeholder="e.g. $200"
+                                {...register("price", { required: "Price is required" })}
+                            />
+                        </div>
+
+                        <div className="grid gap-2">
+                            <Label htmlFor="rate">Rate</Label>
+                            <Input
+                                id="rate"
+                                type="text"
+                                placeholder="e.g. 4.5"
+                                {...register("rate", { required: "Rate is required" })}
+                            />
+                        </div>
+
+                        <Button type="submit" className="w-full">
+                            Confirm
+                        </Button>
                     </form>
-                </main>
-            </div>
-        </div>
-    )
+                </CardContent>
+            </Card>
+            <ToastContainer />
+        </>
+    );
 }
+
+export default AddProduct

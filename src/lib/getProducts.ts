@@ -7,6 +7,7 @@ const getProducts = async () => {
             headers: {
                 'Content-Type': 'application/json',
             },
+            cache: "no-store"
         })
         let result = await data.json()
         const products = result.data
