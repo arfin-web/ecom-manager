@@ -42,7 +42,7 @@ const dashboardMenus = [
     },
     {
         id: 5,
-        title: "Analytics",
+        title: "Overview",
         icon: <LineChart className="h-4 w-4" />,
         link: "/analytics",
         badge: false,
