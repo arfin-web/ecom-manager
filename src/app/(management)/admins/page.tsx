@@ -1,7 +1,5 @@
 import {
-    File,
-    ListFilter,
-    MoreHorizontal,
+    PlusCircle,
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -13,15 +11,6 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
     Table,
     TableBody,
     TableCell,
@@ -32,57 +21,26 @@ import {
 import {
     Tabs,
     TabsContent,
-    TabsList,
-    TabsTrigger,
 } from "@/components/ui/tabs"
 import getCustomers from "@/lib/getCustomers"
+import Link from "next/link"
 
 export default async function Customers() {
     const customers = await getCustomers()
-    const admins = customers?.filter((user: any) => user.role === "admin")
     return (
         <div className="flex min-h-screen px-4 lg:px-6 flex-col bg-muted/40">
             <Tabs defaultValue="week">
                 <div className="flex items-center">
-                    <TabsList>
-                        <TabsTrigger value="week">Week</TabsTrigger>
-                        <TabsTrigger value="month">Month</TabsTrigger>
-                        <TabsTrigger value="year">Year</TabsTrigger>
-                    </TabsList>
+                    <h2>All <span className="text-primary">Admins</span></h2>
                     <div className="ml-auto flex items-center gap-2">
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    className="h-7 gap-1 text-sm"
-                                >
-                                    <ListFilter className="h-3.5 w-3.5" />
-                                    <span className="sr-only sm:not-sr-only">Filter</span>
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuCheckboxItem checked>
-                                    Dhaka
-                                </DropdownMenuCheckboxItem>
-                                <DropdownMenuCheckboxItem>
-                                    Gazipur
-                                </DropdownMenuCheckboxItem>
-                                <DropdownMenuCheckboxItem>
-                                    Chattogram
-                                </DropdownMenuCheckboxItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                        <Button
-                            size="sm"
-                            variant="outline"
-                            className="h-7 gap-1 text-sm"
-                        >
-                            <File className="h-3.5 w-3.5" />
-                            <span className="sr-only sm:not-sr-only">Export</span>
-                        </Button>
+                        <Link href="/admins/add-new-admin">
+                            <Button size="sm" className="h-7 gap-1">
+                                <PlusCircle className="h-3.5 w-3.5" />
+                                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                                    Add New Admin
+                                </span>
+                            </Button>
+                        </Link>
                     </div>
                 </div>
                 <TabsContent value="week" className="mt-5">
@@ -108,19 +66,23 @@ export default async function Customers() {
                                 </TableHeader>
                                 <TableBody>
                                     {
-                                        admins?.map((admin: any) => (
-                                            <TableRow key={admin._id} className="bg-accent">
-                                                <TableCell>
-                                                    <div className="font-medium">{admin.name}</div>
-                                                </TableCell>
-                                                <TableCell className="hidden sm:table-cell">
-                                                    {admin.email}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {admin.role}
-                                                </TableCell>
-                                            </TableRow>
-                                        ))
+                                        customers?.map((customer: any) => {
+                                            if (customer.role == "admin") {
+                                                return (
+                                                    <TableRow key={customer._id} className="bg-accent">
+                                                        <TableCell>
+                                                            <div className="font-medium">{customer.name}</div>
+                                                        </TableCell>
+                                                        <TableCell className="hidden sm:table-cell">
+                                                            {customer.email}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            {customer.role}
+                                                        </TableCell>
+                                                    </TableRow>
+                                                )
+                                            }
+                                        })
                                     }
                                 </TableBody>
                             </Table>

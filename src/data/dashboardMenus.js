@@ -53,14 +53,6 @@ const dashboardMenus = [
     },
     {
         id: 6,
-        title: "Transactions",
-        icon: <ArrowRightLeft className="h-4 w-4" />,
-        link: "/transactions",
-        badge: false,
-        badgeValue: null
-    },
-    {
-        id: 7,
         title: "Geography",
         icon: <Globe className="h-4 w-4" />,
         link: "/geography",
@@ -68,7 +60,7 @@ const dashboardMenus = [
         badgeValue: null
     },
     {
-        id: 8,
+        id: 7,
         title: "Admins",
         icon: <UserRoundCog className="h-4 w-4" />,
         link: "/admins",

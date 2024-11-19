@@ -1,23 +1,16 @@
-import {
-    MoreHorizontal,
-} from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
 import {
     Table,
     TableBody,
@@ -30,6 +23,8 @@ import {
     TabsContent,
 } from "@/components/ui/tabs"
 import getProducts from "@/lib/getProducts"
+import { Trash } from "lucide-react"
+import DeleteProduct from "./DeleteProduct"
 
 const ProductsList = async () => {
     const products = await getProducts()
@@ -52,10 +47,7 @@ const ProductsList = async () => {
                                     Rate
                                 </TableHead>
                                 <TableHead>
-                                    Created at
-                                </TableHead>
-                                <TableHead>
-                                    <span className="sr-only">Actions</span>
+                                    Action
                                 </TableHead>
                             </TableRow>
                         </TableHeader>
@@ -73,27 +65,14 @@ const ProductsList = async () => {
                                             <Badge variant="outline">{product.rate}</Badge>
                                         </TableCell>
                                         <TableCell>
-                                            {product.createdAt}
-                                        </TableCell>
-                                        <TableCell>
-                                            <DropdownMenu>
-                                                <DropdownMenuTrigger asChild>
-                                                    <Button
-                                                        aria-haspopup="true"
-                                                        size="icon"
-                                                        variant="ghost"
-                                                    >
-                                                        <MoreHorizontal className="h-4 w-4" />
-                                                        <span className="sr-only">Toggle menu</span>
-                                                    </Button>
-                                                </DropdownMenuTrigger>
-                                                <DropdownMenuContent align="end">
-                                                    <DropdownMenuLabel className="font-bold">Actions</DropdownMenuLabel>
-                                                    <hr />
-                                                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                                                    <DropdownMenuItem className="text-primary">Delete</DropdownMenuItem>
-                                                </DropdownMenuContent>
-                                            </DropdownMenu>
+                                            <Popover>
+                                                <PopoverTrigger asChild>
+                                                    <Trash className="h-4 w-4 text-primary cursor-pointer" />
+                                                </PopoverTrigger>
+                                                <PopoverContent className="w-80 p-3">
+                                                    <DeleteProduct productData={product} />
+                                                </PopoverContent>
+                                            </Popover>
                                         </TableCell>
                                     </TableRow>
                                 ))
@@ -101,12 +80,6 @@ const ProductsList = async () => {
                         </TableBody>
                     </Table>
                 </CardContent>
-                <CardFooter>
-                    <div className="text-xs text-muted-foreground">
-                        Showing <strong>1-10</strong> of <strong>32</strong>{" "}
-                        products
-                    </div>
-                </CardFooter>
             </Card>
         </TabsContent>
     )
