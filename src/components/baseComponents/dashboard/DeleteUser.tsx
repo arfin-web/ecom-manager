@@ -3,10 +3,12 @@
 import { getBaseUrl } from "@/helpers/config/envConfig";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { useProfile } from "@/lib/useProfile";
 import { ToastContainer, toast } from 'react-toastify';
 
 export default function DeleteUser({ userData }: any) {
     const router = useRouter()
+    const { profile } = useProfile()
 
     const handleDelete = async (id: any) => {
         try {
@@ -53,12 +55,16 @@ export default function DeleteUser({ userData }: any) {
             {
                 userData?.email === "admin@gmail.com" ? <>
                     <h2><span className="text-primary font-semibold">{userData?.name}&#x2C;</span> You can not remove Super Admin.</h2>
-                </> : <div className="w-full">
-                    <h2>Are You Sure you want to Remove <span className="text-primary font-semibold">{userData?.name}</span>?</h2>
-                    <div className="grid place-items-end">
-                        <Button className="mt-3" variant="destructive" size="sm" onClick={() => handleDelete(userData?._id)}>Remove</Button>
-                    </div>
-                </div>
+                </> : <>
+                    {
+                        profile?.role !== "admin" ? <h2>Only Admin Can Delete User</h2> : <div className="w-full">
+                            <h2>Are You Sure you want to Remove <span className="text-primary font-semibold">{userData?.name}</span>?</h2>
+                            <div className="grid place-items-end">
+                                <Button className="mt-3" variant="destructive" size="sm" onClick={() => handleDelete(userData?._id)}>Remove</Button>
+                            </div>
+                        </div>
+                    }
+                </>
             }
             <ToastContainer />
         </>

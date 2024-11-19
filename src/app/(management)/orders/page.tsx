@@ -96,7 +96,7 @@ export default function Orders() {
                                     <TableRow>
                                         <TableHead>Customer</TableHead>
                                         <TableHead>
-                                            Type
+                                            Product
                                         </TableHead>
                                         <TableHead>
                                             Status
@@ -118,7 +118,7 @@ export default function Orders() {
                                                     </div>
                                                 </TableCell>
                                                 <TableCell>
-                                                    {order.type}
+                                                    {order.product}
                                                 </TableCell>
                                                 <TableCell>
                                                     <Badge className="text-xs" variant="secondary">

@@ -3,10 +3,12 @@
 import { getBaseUrl } from "@/helpers/config/envConfig";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { useProfile } from "@/lib/useProfile";
 import { ToastContainer, toast } from 'react-toastify';
 
 export default function DeleteProduct({ productData }: any) {
     const router = useRouter()
+    const { profile } = useProfile()
 
     const handleDelete = async (id: any) => {
         try {
@@ -50,12 +52,14 @@ export default function DeleteProduct({ productData }: any) {
 
     return (
         <>
-            <div className="w-full">
-                <h2>Are You Sure you want to Remove <span className="text-primary font-semibold">{productData?.name}</span>?</h2>
-                <div className="grid place-items-end">
-                    <Button className="mt-3" variant="destructive" size="sm" onClick={() => handleDelete(productData?._id)}>Remove</Button>
+            {
+                profile?.role !== "admin" ? <h2>Only Admin Can Delete Product</h2> : <div className="w-full">
+                    <h2>Are You Sure you want to Remove <span className="text-primary font-semibold">{productData?.name}</span>?</h2>
+                    <div className="grid place-items-end">
+                        <Button className="mt-3" variant="destructive" size="sm" onClick={() => handleDelete(productData?._id)}>Remove</Button>
+                    </div>
                 </div>
-            </div>
+            }
             <ToastContainer />
         </>
     )

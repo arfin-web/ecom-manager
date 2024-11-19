@@ -1,4 +1,4 @@
-import AddAdminButton from "@/components/baseComponents/dashboard/AddAdminButton"
+import { Button } from "@/components/ui/button"
 import {
     Card,
     CardContent,
@@ -6,6 +6,11 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
 import {
     Table,
     TableBody,
@@ -19,43 +24,42 @@ import {
     TabsContent,
 } from "@/components/ui/tabs"
 import getCustomers from "@/lib/getCustomers"
+import SetAdminForm from "./SetAdminForm"
 
-export default async function Customers() {
+export default async function GeneralUsers() {
     const customers = await getCustomers()
     return (
         <div className="flex min-h-screen px-4 lg:px-6 flex-col bg-muted/40">
             <Tabs defaultValue="week">
-                <div className="flex items-center">
-                    <h2>All <span className="text-primary">Admins</span></h2>
-                    <div className="ml-auto flex items-center gap-2">
-                        <AddAdminButton />
-                    </div>
-                </div>
+                <h2>All <span className="text-primary">Users</span></h2>
                 <TabsContent value="week" className="mt-5">
                     <Card x-chunk="dashboard-05-chunk-3">
                         <CardHeader className="px-7">
-                            <CardTitle>Admins</CardTitle>
+                            <CardTitle>Users</CardTitle>
                             <CardDescription>
-                                See all of your valuable Admins.
+                                See all of your valuable Users.
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
                             <Table>
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead>Admin</TableHead>
+                                        <TableHead>User</TableHead>
                                         <TableHead>
                                             Email
                                         </TableHead>
                                         <TableHead>
                                             Role
                                         </TableHead>
+                                        <TableHead>
+                                            Action
+                                        </TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
                                     {
                                         customers?.map((customer: any) => {
-                                            if (customer.role == "admin") {
+                                            if (customer.role == "customer") {
                                                 return (
                                                     <TableRow key={customer._id} className="bg-accent">
                                                         <TableCell>
@@ -66,6 +70,16 @@ export default async function Customers() {
                                                         </TableCell>
                                                         <TableCell>
                                                             {customer.role}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Popover>
+                                                                <PopoverTrigger asChild>
+                                                                    <Button variant="outline" className="text-primary" size="sm">Set As Admin</Button>
+                                                                </PopoverTrigger>
+                                                                <PopoverContent className="w-80 p-3">
+                                                                    <SetAdminForm customerData={customer} />
+                                                                </PopoverContent>
+                                                            </Popover>
                                                         </TableCell>
                                                     </TableRow>
                                                 )

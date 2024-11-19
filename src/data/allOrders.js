@@ -3,7 +3,7 @@ const allOrders = [
         id: 1,
         name: "Arfin Priom",
         email: 'arfinpriom12@gmail.com',
-        type: 'sale',
+        product: 'Iphone 16 Pro',
         status: 'Fulfilled',
         price: 250,
         status: "Paid",
