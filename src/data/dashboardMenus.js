@@ -1,5 +1,6 @@
 import {
     ArrowRightLeft,
+    BellElectric,
     Globe,
     Home,
     LineChart,
@@ -72,6 +73,14 @@ const dashboardMenus = [
         title: "Admins",
         icon: <UserRoundCog className="h-4 w-4" />,
         link: "/admins",
+        badge: false,
+        badgeValue: null
+    },
+    {
+        id: 9,
+        title: "Notices",
+        icon: <BellElectric className="h-4 w-4" />,
+        link: "/notices",
         badge: false,
         badgeValue: null
     },

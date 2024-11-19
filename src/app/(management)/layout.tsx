@@ -3,6 +3,11 @@ import {
     Menu,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import UpgradePlanCard from "@/components/baseComponents/dashboard/UpgradePlanCard"
 import Logo from "@/components/baseComponents/public/Logo"
@@ -10,6 +15,7 @@ import DashboardMenus from "@/components/baseComponents/dashboard/DashboardMenus
 import { ThemeToggle } from "@/components/baseComponents/public/ThemeToggle"
 import WelcomeText from "@/components/baseComponents/dashboard/WelcomeText"
 import UserButton from "@/components/baseComponents/dashboard/UserButton"
+import Notifications from "@/components/baseComponents/dashboard/Notifications"
 
 export default function DashboardLayout({
     children,
@@ -23,10 +29,17 @@ export default function DashboardLayout({
                     <div className="flex h-full max-h-screen flex-col gap-2 fixed">
                         <div className="flex h-14 items-center px-4 lg:h-[60px] lg:px-6">
                             <Logo />
-                            <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
-                                <Bell className="h-4 w-4" />
-                                <span className="sr-only">Toggle notifications</span>
-                            </Button>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
+                                        <Bell className="h-4 w-4" />
+                                        <span className="sr-only">Toggle notifications</span>
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className="border-none bg-inherit">
+                                    <Notifications />
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                         </div>
                         <div className="flex-1">
                             <DashboardMenus />
