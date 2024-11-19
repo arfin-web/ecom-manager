@@ -1,7 +1,7 @@
 import {
     File,
     ListFilter,
-    MoreHorizontal,
+    Trash,
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -16,11 +16,15 @@ import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
-    DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
 import {
     Table,
     TableBody,
@@ -36,6 +40,7 @@ import {
     TabsTrigger,
 } from "@/components/ui/tabs"
 import getCustomers from "@/lib/getCustomers"
+import DeleteUser from "@/components/baseComponents/dashboard/DeleteUser"
 
 export default async function Customers() {
     const customers = await getCustomers()
@@ -116,24 +121,14 @@ export default async function Customers() {
                                                     {customer.email}
                                                 </TableCell>
                                                 <TableCell>
-                                                    <DropdownMenu>
-                                                        <DropdownMenuTrigger asChild>
-                                                            <Button
-                                                                aria-haspopup="true"
-                                                                size="icon"
-                                                                variant="ghost"
-                                                            >
-                                                                <MoreHorizontal className="h-4 w-4" />
-                                                                <span className="sr-only">Toggle menu</span>
-                                                            </Button>
-                                                        </DropdownMenuTrigger>
-                                                        <DropdownMenuContent align="end">
-                                                            <DropdownMenuLabel className="font-bold">Actions</DropdownMenuLabel>
-                                                            <hr />
-                                                            <DropdownMenuItem>Edit</DropdownMenuItem>
-                                                            <DropdownMenuItem className="text-primary">Delete</DropdownMenuItem>
-                                                        </DropdownMenuContent>
-                                                    </DropdownMenu>
+                                                    <Popover>
+                                                        <PopoverTrigger asChild>
+                                                            <Trash className="h-4 w-4 text-primary cursor-pointer" />
+                                                        </PopoverTrigger>
+                                                        <PopoverContent className="w-80 p-3">
+                                                            <DeleteUser userData={customer} />
+                                                        </PopoverContent>
+                                                    </Popover>
                                                 </TableCell>
                                             </TableRow>
                                         ))
