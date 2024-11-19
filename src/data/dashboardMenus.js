@@ -1,8 +1,10 @@
 import {
+    ArrowRightLeft,
     Home,
     LineChart,
     Package,
     ShoppingCart,
+    UserRoundCog,
     Users,
 } from "lucide-react"
 import allOrders from "./allOrders"
@@ -42,9 +44,25 @@ const dashboardMenus = [
     },
     {
         id: 5,
+        title: "Transactions",
+        icon: <ArrowRightLeft className="h-4 w-4" />,
+        link: "/transactions",
+        badge: false,
+        badgeValue: null
+    },
+    {
+        id: 6,
         title: "Overview",
         icon: <LineChart className="h-4 w-4" />,
         link: "/analytics",
+        badge: false,
+        badgeValue: null
+    },
+    {
+        id: 7,
+        title: "Admins",
+        icon: <UserRoundCog className="h-4 w-4" />,
+        link: "/admins",
         badge: false,
         badgeValue: null
     },

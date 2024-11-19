@@ -6,6 +6,7 @@ const allOrders = [
         type: 'sale',
         status: 'Fulfilled',
         price: 250,
+        status: "Paid",
         orderDate: '2024-11-01',
     },
 ]

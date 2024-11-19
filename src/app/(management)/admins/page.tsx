@@ -39,6 +39,7 @@ import getCustomers from "@/lib/getCustomers"
 
 export default async function Customers() {
     const customers = await getCustomers()
+    const admins = customers?.filter((user: any) => user.role === "admin")
     return (
         <div className="flex min-h-screen px-4 lg:px-6 flex-col bg-muted/40">
             <Tabs defaultValue="week">
@@ -97,43 +98,26 @@ export default async function Customers() {
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead>Customer</TableHead>
-                                        <TableHead className="hidden sm:table-cell">
+                                        <TableHead>
                                             Email
                                         </TableHead>
-                                        <TableHead className="hidden sm:table-cell">
-                                            Action
+                                        <TableHead>
+                                            Role
                                         </TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
                                     {
-                                        customers?.map((customer: any) => (
-                                            <TableRow key={customer._id} className="bg-accent">
+                                        admins?.map((admin: any) => (
+                                            <TableRow key={admin._id} className="bg-accent">
                                                 <TableCell>
-                                                    <div className="font-medium">{customer.name}</div>
+                                                    <div className="font-medium">{admin.name}</div>
                                                 </TableCell>
                                                 <TableCell className="hidden sm:table-cell">
-                                                    {customer.email}
+                                                    {admin.email}
                                                 </TableCell>
                                                 <TableCell>
-                                                    <DropdownMenu>
-                                                        <DropdownMenuTrigger asChild>
-                                                            <Button
-                                                                aria-haspopup="true"
-                                                                size="icon"
-                                                                variant="ghost"
-                                                            >
-                                                                <MoreHorizontal className="h-4 w-4" />
-                                                                <span className="sr-only">Toggle menu</span>
-                                                            </Button>
-                                                        </DropdownMenuTrigger>
-                                                        <DropdownMenuContent align="end">
-                                                            <DropdownMenuLabel className="font-bold">Actions</DropdownMenuLabel>
-                                                            <hr />
-                                                            <DropdownMenuItem>Edit</DropdownMenuItem>
-                                                            <DropdownMenuItem className="text-primary">Delete</DropdownMenuItem>
-                                                        </DropdownMenuContent>
-                                                    </DropdownMenu>
+                                                    {admin.role}
                                                 </TableCell>
                                             </TableRow>
                                         ))
