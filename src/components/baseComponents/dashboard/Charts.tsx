@@ -88,7 +88,7 @@ export default function Charts() {
                             Showing total paid & dues for the last 1 week
                         </CardDescription>
                     </div>
-                    <div className="flex">
+                    {/* <div className="flex">
                         {["paid", "due"].map((key) => {
                             const chart = key as keyof typeof chartConfig
                             return (
@@ -107,7 +107,7 @@ export default function Charts() {
                                 </button>
                             )
                         })}
-                    </div>
+                    </div> */}
                 </CardHeader>
                 <CardContent className="px-2 sm:p-6">
                     <ChartContainer

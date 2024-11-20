@@ -42,6 +42,7 @@ const ProductsList = async () => {
                         <TableHeader>
                             <TableRow>
                                 <TableHead>Name</TableHead>
+                                <TableHead>Category</TableHead>
                                 <TableHead>Price</TableHead>
                                 <TableHead>
                                     Rate
@@ -58,6 +59,7 @@ const ProductsList = async () => {
                                         <TableCell className="font-medium">
                                             {product.name}
                                         </TableCell>
+                                        <TableCell>{product.category}</TableCell>
                                         <TableCell>
                                             ${product.price}
                                         </TableCell>

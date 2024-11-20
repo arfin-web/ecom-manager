@@ -124,14 +124,15 @@ export default function Breakdown() {
                                                     y={viewBox.cy}
                                                     className="fill-foreground text-3xl font-bold"
                                                 >
-                                                    {totalVisitors.toLocaleString()}
+                                                    {/* {totalVisitors.toLocaleString()} */}
+                                                    {products?.length || 0}
                                                 </tspan>
                                                 <tspan
                                                     x={viewBox.cx}
                                                     y={(viewBox.cy || 0) + 24}
                                                     className="fill-muted-foreground"
                                                 >
-                                                    Visitors
+                                                    Products
                                                 </tspan>
                                             </text>
                                         )
@@ -144,10 +145,10 @@ export default function Breakdown() {
             </CardContent>
             <CardFooter className="flex-col gap-2 text-sm">
                 <div className="flex items-center gap-2 font-medium leading-none">
-                    Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+                    Trending up by 5.2% this week <TrendingUp className="h-4 w-4" />
                 </div>
                 <div className="leading-none text-muted-foreground">
-                    Showing total visitors for the last 1 Week
+                    Showing total products for the last 1 Week
                 </div>
             </CardFooter>
         </Card>

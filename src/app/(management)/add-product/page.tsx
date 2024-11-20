@@ -107,10 +107,10 @@ const AddProduct = () => {
                                 id="category"
                                 className="p-1.5 bg-inherit border border-muted rounded-md"
                             >
-                                <option value="">Select Category</option>
+                                <option value="" className="dark:text-primary">Select Category</option>
                                 {
                                     categories.map((category, index) => (
-                                        <option key={index} value={category.title}>{(category.title).toUpperCase()}</option>
+                                        <option key={index} value={category.title} className="dark:text-primary">{(category.title).toUpperCase()}</option>
                                     ))
                                 }
                             </select>

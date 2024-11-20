@@ -61,7 +61,7 @@ export default async function Customers() {
                                                         <TableCell>
                                                             <div className="font-medium">{customer.name}</div>
                                                         </TableCell>
-                                                        <TableCell className="hidden sm:table-cell">
+                                                        <TableCell>
                                                             {customer.email}
                                                         </TableCell>
                                                         <TableCell>

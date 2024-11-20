@@ -28,7 +28,7 @@ export default async function Notifications({ className, ...props }: CardProps) 
                     </div>
                 </div>
                 <div>
-                    {notices?.reverse().map((notification: any) => (
+                    {notices?.reverse().slice(0, 3).map((notification: any) => (
                         <div
                             key={notification._id}
                             className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0"

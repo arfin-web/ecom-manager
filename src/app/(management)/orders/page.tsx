@@ -129,7 +129,7 @@ export default async function Orders() {
                                                         {order.status}
                                                     </Badge>
                                                 </TableCell>
-                                                <TableCell className="hidden md:table-cell">
+                                                <TableCell>
                                                     {order.date}
                                                 </TableCell>
                                                 <TableCell>${order.price}</TableCell>
