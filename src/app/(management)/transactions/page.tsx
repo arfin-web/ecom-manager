@@ -15,7 +15,7 @@ const AllTransections = () => {
             >
                 <CardHeader className="flex flex-row items-center">
                     <div className="grid gap-2">
-                        <CardTitle>All Transactions</CardTitle>
+                        <CardTitle className="text-lg font-bold">All <span className="text-primary">Transactions</span></CardTitle>
                         <CardDescription>
                             All transactions from your store.
                         </CardDescription>

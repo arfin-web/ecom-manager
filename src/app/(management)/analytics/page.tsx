@@ -15,21 +15,21 @@ const Analytics = () => {
             <Tabs defaultValue="overview" className="p-2">
                 <TabsList className="grid w-full grid-cols-4">
                     <TabsTrigger value="overview">Overview</TabsTrigger>
+                    <TabsTrigger value="breakdown">Products</TabsTrigger>
                     <TabsTrigger value="daily">Daily</TabsTrigger>
                     <TabsTrigger value="monthly">Monthly</TabsTrigger>
-                    <TabsTrigger value="breakdown">Breakdown</TabsTrigger>
                 </TabsList>
                 <TabsContent value="overview">
                     <Charts />
+                </TabsContent>
+                <TabsContent value="breakdown">
+                    <Breakdown />
                 </TabsContent>
                 <TabsContent value="daily">
                     <DailyOverview />
                 </TabsContent>
                 <TabsContent value="monthly">
                     <MonthlyOverview />
-                </TabsContent>
-                <TabsContent value="breakdown">
-                    <Breakdown />
                 </TabsContent>
             </Tabs>
         </>

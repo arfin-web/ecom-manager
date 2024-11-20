@@ -15,14 +15,14 @@ const Notices = async () => {
     return (
         <div className="flex flex-1 flex-col gap-4 p-2">
             <div className="w-full flex justify-between items-center">
-                <h2 className="text-lg font-bold">All Notices</h2>
+                <h2 className="text-lg font-bold">All <span className="text-primary">Notices</span></h2>
                 <Link href="/notices/add-new">
                     <Button className="shadow-md">Add New</Button>
                 </Link>
             </div>
             <div className="grid auto-rows-min gap-4 md:grid-cols-3">
                 {
-                    notices?.map((item: any) => (
+                    notices?.reverse().map((item: any) => (
                         <div key={item._id} className="rounded-xl bg-muted/50 p-3 lg:p-5">
                             <div className="flex w-full justify-between items-center">
                                 <h2 className="font-semibold text-sm text-primary">{format(item.date, "PPP")}</h2>

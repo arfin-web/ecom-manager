@@ -47,7 +47,7 @@ export default async function Customers() {
     return (
         <div className="flex min-h-screen px-4 lg:px-6 flex-col bg-muted/40">
             <Tabs defaultValue="week">
-                <div className="flex items-center">
+                {/* <div className="flex items-center">
                     <TabsList>
                         <TabsTrigger value="week">Week</TabsTrigger>
                         <TabsTrigger value="month">Month</TabsTrigger>
@@ -88,11 +88,11 @@ export default async function Customers() {
                             <span className="sr-only sm:not-sr-only">Export</span>
                         </Button>
                     </div>
-                </div>
+                </div> */}
                 <TabsContent value="week" className="mt-5">
                     <Card x-chunk="dashboard-05-chunk-3">
                         <CardHeader className="px-7">
-                            <CardTitle>Customers</CardTitle>
+                            <CardTitle className="text-lg font-bold">All <span className="text-primary">Customers</span></CardTitle>
                             <CardDescription>
                                 See all of your valuable customers.
                             </CardDescription>

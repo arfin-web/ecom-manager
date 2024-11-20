@@ -1,19 +1,24 @@
 const categories = [
     {
         id: 1,
-        title: "Clothing",
-        image: "/placeholder.png",
+        title: "cloths",
     },
     {
         id: 2,
-        title: "Electronics",
-        image: "/placeholder.png",
+        title: "electronics",
     },
     {
-        id: 1,
-        title: "Food",
-        image: "/placeholder.png",
+        id: 3,
+        title: "shoes",
     },
+    {
+        id: 4,
+        title: "watches",
+    },
+    {
+        id: 5,
+        title: "others",
+    }
 ]
 
 export default categories

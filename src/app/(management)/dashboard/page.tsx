@@ -1,5 +1,6 @@
 import AllTransections from "@/components/baseComponents/dashboard/AllTransections"
 import Breakdown from "@/components/baseComponents/dashboard/Breakdown"
+import CustomersChart from "@/components/baseComponents/dashboard/CustomersChart"
 import SummuryCard from "@/components/baseComponents/dashboard/SummuryCard"
 
 export default function Dashboard() {
@@ -9,7 +10,8 @@ export default function Dashboard() {
                 <SummuryCard />
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                     <div className="lg:col-span-2">
-                        <AllTransections />
+                        {/* <AllTransections /> */}
+                        <CustomersChart />
                     </div>
                     <div>
                         <Breakdown />

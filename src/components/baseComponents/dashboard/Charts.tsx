@@ -14,32 +14,70 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart"
-import chartData from "@/data/chartData"
+import { useOrders } from "@/lib/useOrders"
 
 const chartConfig = {
     views: {
         label: "Total Sale",
     },
     sale: {
-        label: "Sale",
+        label: "Paid",
         color: "hsl(var(--primary))",
     },
     return: {
-        label: "Return",
+        label: "Due",
         color: "hsl(var(--primary-foreground))",
     },
 } satisfies ChartConfig
 
 export default function Charts() {
     const [activeChart, setActiveChart] = React.useState<keyof typeof chartConfig>("sale")
+    const { orders } = useOrders()
 
-    const total = React.useMemo(
-        () => ({
-            sale: chartData.reduce((acc, curr) => acc + curr.sale, 0),
-            return: chartData.reduce((acc, curr) => acc + curr.return, 0),
-        }),
-        []
-    )
+    // Calculate totals for paid and due orders
+    const total = React.useMemo(() => {
+        const saleTotal = orders?.filter((order: any) => order.status === "paid")
+            .reduce((acc: any, curr: any) => acc + parseFloat(curr.price), 0)
+
+        const returnTotal = orders?.filter((order: any) => order.status === "due")
+            .reduce((acc: any, curr: any) => acc + parseFloat(curr.price), 0)
+
+        return {
+            sale: saleTotal,
+            return: returnTotal,
+        }
+    }, [orders])
+
+    // Data to be displayed on the chart
+    const chartData = React.useMemo(() => {
+        const groupedData: { date: string; sale: number; return: number }[] = []
+
+        // Group orders by date and calculate the totals
+        orders?.forEach((order: any) => {
+            const date = new Date(order.date).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+            })
+            const existing = groupedData.find((item) => item.date === date)
+
+            if (existing) {
+                if (order.status === "paid") {
+                    existing.sale += parseFloat(order.price)
+                } else {
+                    existing.return += parseFloat(order.price)
+                }
+            } else {
+                groupedData.push({
+                    date,
+                    sale: order.status === "paid" ? parseFloat(order.price) : 0,
+                    return: order.status === "due" ? parseFloat(order.price) : 0,
+                })
+            }
+        })
+
+        return groupedData
+    }, [orders])
+
     return (
         <>
             <Card className="m-5">
@@ -47,11 +85,11 @@ export default function Charts() {
                     <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
                         <CardTitle>Business Report</CardTitle>
                         <CardDescription>
-                            Showing total sales & returns for the last 3 months
+                            Showing total paid & dues for the last 1 week
                         </CardDescription>
                     </div>
                     <div className="flex">
-                        {["sale", "return"].map((key) => {
+                        {["paid", "due"].map((key) => {
                             const chart = key as keyof typeof chartConfig
                             return (
                                 <button
@@ -61,10 +99,10 @@ export default function Charts() {
                                     onClick={() => setActiveChart(chart)}
                                 >
                                     <span className="text-xs text-muted-foreground">
-                                        {chartConfig[chart].label}
+                                        {chartConfig[chart]?.label}
                                     </span>
                                     <span className="text-lg font-bold leading-none sm:text-3xl">
-                                        {total[key as keyof typeof total].toLocaleString()}
+                                        {total[key as keyof typeof total]?.toLocaleString()}
                                     </span>
                                 </button>
                             )
@@ -114,7 +152,10 @@ export default function Charts() {
                                     />
                                 }
                             />
-                            <Bar dataKey={activeChart} fill={`var(--color-${activeChart})`} />
+                            <Bar
+                                dataKey={activeChart}
+                                fill={`var(--color-${activeChart})`}
+                            />
                         </BarChart>
                     </ChartContainer>
                 </CardContent>

@@ -15,10 +15,12 @@ import { useForm } from "react-hook-form"
 import { getBaseUrl } from "@/helpers/config/envConfig"
 import { ToastContainer, toast } from 'react-toastify';
 import { useRouter } from "next/navigation"
+import categories from "@/data/categories"
 
 type FormData = {
     name: string;
     description: string;
+    category: string,
     price: number;
     rate: string;
 };
@@ -95,6 +97,23 @@ const AddProduct = () => {
                                 placeholder="Type your Product Description here."
                                 {...register("description", { required: "Description is required" })}
                             />
+                        </div>
+
+
+                        <div className="grid gap-2">
+                            <Label htmlFor="category">Category</Label>
+                            <select
+                                {...register("category", { required: "Category is required" })}
+                                id="category"
+                                className="p-1.5 bg-inherit border border-muted rounded-md"
+                            >
+                                <option value="">Select Category</option>
+                                {
+                                    categories.map((category, index) => (
+                                        <option key={index} value={category.title}>{(category.title).toUpperCase()}</option>
+                                    ))
+                                }
+                            </select>
                         </div>
 
                         <div className="grid gap-2">

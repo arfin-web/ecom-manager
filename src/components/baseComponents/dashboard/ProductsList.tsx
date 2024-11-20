@@ -32,7 +32,7 @@ const ProductsList = async () => {
         <TabsContent value="all" className="mt-5">
             <Card x-chunk="dashboard-06-chunk-0">
                 <CardHeader>
-                    <CardTitle>Products</CardTitle>
+                    <CardTitle className="text-lg font-bold">All <span className="text-primary">Products</span></CardTitle>
                     <CardDescription>
                         Manage your products and view their sales performance.
                     </CardDescription>

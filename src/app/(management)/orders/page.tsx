@@ -21,6 +21,11 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
+import {
     Table,
     TableBody,
     TableCell,
@@ -34,19 +39,17 @@ import {
     TabsList,
     TabsTrigger,
 } from "@/components/ui/tabs"
-import allOrders from "@/data/allOrders"
+import getOrders from "@/lib/getOrders"
+import OrderPdf from "@/components/baseComponents/dashboard/OrderPdf"
 
-export default function Orders() {
+export default async function Orders() {
+    const orders = await getOrders()
     return (
         <div className="flex min-h-screen px-4 lg:px-6 flex-col bg-muted/40">
             <Tabs defaultValue="week">
                 <div className="flex items-center">
-                    <TabsList>
-                        <TabsTrigger value="week">Week</TabsTrigger>
-                        <TabsTrigger value="month">Month</TabsTrigger>
-                        <TabsTrigger value="year">Year</TabsTrigger>
-                    </TabsList>
-                    <div className="ml-auto flex items-center gap-2">
+                    <h2 className="text-lg font-bold">All <span className="text-primary">Orders</span></h2>
+                    {/* <div className="ml-auto flex items-center gap-2">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button
@@ -80,7 +83,7 @@ export default function Orders() {
                             <File className="h-3.5 w-3.5" />
                             <span className="sr-only sm:not-sr-only">Export</span>
                         </Button>
-                    </div>
+                    </div> */}
                 </div>
                 <TabsContent value="week" className="mt-5">
                     <Card x-chunk="dashboard-05-chunk-3">
@@ -105,12 +108,13 @@ export default function Orders() {
                                             Date
                                         </TableHead>
                                         <TableHead>Amount</TableHead>
+                                        <TableHead>Action</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
                                     {
-                                        allOrders.map((order) => (
-                                            <TableRow key={order.id} className="bg-accent">
+                                        orders?.map((order: any) => (
+                                            <TableRow key={order._id} className="bg-accent">
                                                 <TableCell>
                                                     <div className="font-medium">{order.name}</div>
                                                     <div className="hidden text-sm text-muted-foreground md:inline">
@@ -121,14 +125,24 @@ export default function Orders() {
                                                     {order.product}
                                                 </TableCell>
                                                 <TableCell>
-                                                    <Badge className="text-xs" variant="secondary">
+                                                    <Badge className="text-xs" variant="outline">
                                                         {order.status}
                                                     </Badge>
                                                 </TableCell>
                                                 <TableCell className="hidden md:table-cell">
-                                                    {order.orderDate}
+                                                    {order.date}
                                                 </TableCell>
                                                 <TableCell>${order.price}</TableCell>
+                                                <TableCell>
+                                                    <Popover>
+                                                        <PopoverTrigger asChild>
+                                                            <Button variant="outline" className="text-primary" size="sm">Generate Invoice</Button>
+                                                        </PopoverTrigger>
+                                                        <PopoverContent className="w-full p-3">
+                                                            <OrderPdf orderData={order} />
+                                                        </PopoverContent>
+                                                    </Popover>
+                                                </TableCell>
                                             </TableRow>
                                         ))
                                     }

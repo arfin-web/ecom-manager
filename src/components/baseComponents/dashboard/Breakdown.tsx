@@ -18,32 +18,26 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart"
-const chartData = [
-    { browser: "cloths", visitors: 275, fill: "var(--color-chrome)" },
-    { browser: "shoes", visitors: 200, fill: "var(--color-safari)" },
-    { browser: "watches", visitors: 287, fill: "var(--color-firefox)" },
-    { browser: "electronics", visitors: 173, fill: "var(--color-edge)" },
-    { browser: "other", visitors: 190, fill: "var(--color-other)" },
-]
+import { useProducts } from "@/lib/useProducts"
 
 const chartConfig = {
     visitors: {
-        label: "Cloths",
+        label: "Visitors",
     },
     chrome: {
-        label: "Shoes",
+        label: "Chrome",
         color: "hsl(var(--chart-1))",
     },
     safari: {
-        label: "Watches",
+        label: "Safari",
         color: "hsl(var(--chart-2))",
     },
     firefox: {
-        label: "Mobile",
+        label: "Firefox",
         color: "hsl(var(--chart-3))",
     },
     edge: {
-        label: "Electronics",
+        label: "Edge",
         color: "hsl(var(--chart-4))",
     },
     other: {
@@ -53,19 +47,54 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export default function Breakdown() {
+    const { products = [] } = useProducts() // Ensure `products` is always defined
+
+    // Group products by category and count the number of products in each category
+    const chartData = React.useMemo(() => {
+        if (!products || products.length === 0) return []
+
+        const categoryCount = products.reduce((acc: any, product: any) => {
+            acc[product.category] = (acc[product.category] || 0) + 1
+            return acc
+        }, {})
+
+        // Assign colors to categories
+        const getCategoryColor = (category: any) => {
+            const colors = {
+                clothes: "hsl(var(--chart-1))",
+                shoes: "hsl(var(--chart-2))",
+                watches: "hsl(var(--chart-3))",
+                electronics: "hsl(var(--chart-4))",
+                others: "hsl(var(--chart-5))",
+            }
+            return colors[category] || "hsl(var(--chart-other))"
+        }
+
+        // Map the counts to the chart data format
+        return Object.entries(categoryCount).map(([category, count]) => ({
+            category,
+            visitors: count,
+            fill: getCategoryColor(category),
+        }))
+    }, [products])
+
     const totalVisitors = React.useMemo(() => {
-        return chartData.reduce((acc, curr) => acc + curr.visitors, 0)
-    }, [])
+        return chartData.reduce((acc, curr: any) => acc + curr.visitors, 0)
+    }, [chartData])
+
+    // Show a loading message if chart data is empty
+    if (chartData.length === 0) {
+        return <div>Loading chart data...</div>
+    }
 
     return (
         <Card className="flex flex-col border border-primary">
             <CardHeader className="items-center pb-0">
-                <CardTitle>Pie Chart - Donut with Text</CardTitle>
-                <CardDescription>January - June 2024</CardDescription>
+                <CardTitle>Products Category</CardTitle>
+                <CardDescription>See products based o categories</CardDescription>
             </CardHeader>
             <CardContent className="flex-1 pb-0">
-                <ChartContainer
-                    config={chartConfig}
+                <ChartContainer config={chartConfig}
                     className="mx-auto aspect-square max-h-[250px]"
                 >
                     <PieChart>
@@ -76,7 +105,7 @@ export default function Breakdown() {
                         <Pie
                             data={chartData}
                             dataKey="visitors"
-                            nameKey="browser"
+                            nameKey="category"
                             innerRadius={60}
                             strokeWidth={5}
                         >
@@ -118,7 +147,7 @@ export default function Breakdown() {
                     Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
                 </div>
                 <div className="leading-none text-muted-foreground">
-                    Showing total visitors for the last 6 months
+                    Showing total visitors for the last 1 Week
                 </div>
             </CardFooter>
         </Card>
