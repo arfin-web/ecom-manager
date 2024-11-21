@@ -12,7 +12,7 @@ import getOrders from "@/lib/getOrders"
 const TransectionsList = async () => {
     const orders = await getOrders()
     return (
-        <Table>
+        <Table className="overflow-x-scroll">
             <TableHeader>
                 <TableRow>
                     <TableHead>Customer</TableHead>

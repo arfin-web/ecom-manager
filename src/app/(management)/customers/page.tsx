@@ -98,7 +98,7 @@ export default async function Customers() {
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <Table>
+                            <Table className="overflow-x-scroll">
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead>Customer</TableHead>

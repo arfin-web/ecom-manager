@@ -4,10 +4,12 @@ import { getBaseUrl } from "@/helpers/config/envConfig";
 
 export function useProfile() {
     const [profile, setProfile] = useState<any>(null);
+    const [loading, setLoading] = useState(false)
     const [error, setError] = useState("");
     const router = useRouter();
 
     const fetchProfile = async () => {
+        setLoading(true)
         const token = localStorage.getItem("token");
 
         if (!token) {
@@ -28,6 +30,7 @@ export function useProfile() {
 
             if (response.ok) {
                 setProfile(result.data);
+                setLoading(false)
             } else {
                 setError(result.message || "Failed to fetch profile data.");
             }
@@ -47,5 +50,5 @@ export function useProfile() {
         router.push("/");
     }
 
-    return { profile, error, handleLogout };
+    return { profile, loading, error, handleLogout };
 }

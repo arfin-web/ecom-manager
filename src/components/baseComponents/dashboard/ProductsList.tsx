@@ -47,7 +47,7 @@ const ProductsList = async () => {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <Table>
+                    <Table className="overflow-x-scroll">
                         <TableHeader>
                             <TableRow>
                                 <TableHead>Name</TableHead>

@@ -99,7 +99,7 @@ const Register = () => {
                                 placeholder="eg. ******"
                             />
                         </div>
-                        <h3 className="text-xs text-primary-foreground">Password Must Be Atleast Six Character</h3>
+                        <h3 className="text-xs dark:text-primary-foreground">Password Must Be Atleast Six Character</h3>
 
                         <Button type="submit" className="mt-3">
                             Sign Up
