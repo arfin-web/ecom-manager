@@ -1,7 +1,7 @@
 const categories = [
     {
         id: 1,
-        title: "cloths",
+        title: "clothes",
     },
     {
         id: 2,

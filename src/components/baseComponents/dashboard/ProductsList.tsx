@@ -7,6 +7,14 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import {
     Popover,
     PopoverContent,
     PopoverTrigger,
@@ -23,8 +31,9 @@ import {
     TabsContent,
 } from "@/components/ui/tabs"
 import getProducts from "@/lib/getProducts"
-import { Trash } from "lucide-react"
+import { Edit, Trash } from "lucide-react"
 import DeleteProduct from "./DeleteProduct"
+import UpdateProductForm from "./UpdateProductForm"
 
 const ProductsList = async () => {
     const products = await getProducts()
@@ -66,7 +75,23 @@ const ProductsList = async () => {
                                         <TableCell>
                                             <Badge variant="outline">{product.rate}</Badge>
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell className="flex justify-start items-center gap-2">
+
+                                            <Dialog>
+                                                <DialogTrigger asChild>
+                                                    <Edit className="h-4 w-4 cursor-pointer" />
+                                                </DialogTrigger>
+                                                <DialogContent className="sm:max-w-[425px]">
+                                                    <DialogHeader>
+                                                        <DialogTitle>Update This <span className="text-primary">Product</span></DialogTitle>
+                                                        <DialogDescription>
+                                                            Give Proper Information
+                                                        </DialogDescription>
+                                                    </DialogHeader>
+                                                    <UpdateProductForm productData={product} />
+                                                </DialogContent>
+                                            </Dialog>
+
                                             <Popover>
                                                 <PopoverTrigger asChild>
                                                     <Trash className="h-4 w-4 text-primary cursor-pointer" />

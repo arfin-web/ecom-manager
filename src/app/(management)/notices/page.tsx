@@ -4,7 +4,6 @@ import {
     Dialog,
     DialogContent,
     DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -16,7 +15,6 @@ import {
 } from "@/components/ui/popover"
 import { format } from "date-fns"
 import { BellElectric, Trash } from "lucide-react"
-import Link from "next/link"
 import getNotices from "@/lib/getNotices"
 import AddNoticeForm from "@/components/baseComponents/dashboard/AddNoticeForm"
 

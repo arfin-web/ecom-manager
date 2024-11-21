@@ -46,7 +46,7 @@ export default function CustomersChart() {
     }));
 
     return (
-        <Card>
+        <Card className="h-96">
             <CardHeader>
                 <CardTitle>Customer Registration Chart</CardTitle>
                 <CardDescription>Number of registrations by date</CardDescription>

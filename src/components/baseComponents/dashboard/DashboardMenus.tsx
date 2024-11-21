@@ -14,9 +14,11 @@ import {
     Users,
 } from "lucide-react"
 import { useOrders } from "@/lib/useOrders"
+import { useProfile } from "@/lib/useProfile"
 
 const DashboardMenus = () => {
     const pathname = usePathname()
+    const { profile } = useProfile()
     const { orders } = useOrders()
 
     const dashboardMenus = [
@@ -98,18 +100,22 @@ const DashboardMenus = () => {
             {
                 dashboardMenus.map((menus) => {
                     const isActive = pathname === menus.link
-                    return (
-                        <Link
-                            key={menus.id}
-                            href={menus.link}
-                            className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${isActive ? 'bg-muted text-primary' : ''}`}>
-                            {menus.icon}
-                            {menus.title}
-                            <Badge className={`ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${!menus.badge ? 'hidden' : 'flex'}`}>
-                                {menus.badgeValue}
-                            </Badge>
-                        </Link>
-                    )
+                    if (profile?.email) {
+                        return (
+                            <Link
+                                key={menus.id}
+                                href={menus.link}
+                                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${isActive ? 'bg-muted text-primary' : ''}`}>
+                                {menus.icon}
+                                {menus.title}
+                                <Badge className={`ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${!menus.badge ? 'hidden' : 'flex'}`}>
+                                    {menus.badgeValue}
+                                </Badge>
+                            </Link>
+                        )
+                    } else {
+                        return null
+                    }
                 })}
         </nav>
     )

@@ -38,7 +38,7 @@ const Register = () => {
                     closeOnClick: true,
                 })
                 reset();
-                router.push('/');
+                router.push('/login');
             } else {
                 toast.error(result.message || "Error registering user", {
                     position: "top-center",
@@ -99,6 +99,7 @@ const Register = () => {
                                 placeholder="eg. ******"
                             />
                         </div>
+                        <h3 className="text-xs text-primary-foreground">Password Must Be Atleast Six Character</h3>
 
                         <Button type="submit" className="mt-3">
                             Sign Up
@@ -106,7 +107,7 @@ const Register = () => {
 
                         <div className="mt-4 text-center text-sm">
                             Already have an account?{" "}
-                            <Link href="/" className="underline text-primary">
+                            <Link href="/login" className="underline text-primary">
                                 Login
                             </Link>
                         </div>

@@ -88,7 +88,7 @@ export default function Breakdown() {
     }
 
     return (
-        <Card className="flex flex-col border border-primary">
+        <Card className="flex flex-col border border-primary h-96">
             <CardHeader className="items-center pb-0">
                 <CardTitle>Products Category</CardTitle>
                 <CardDescription>See products based o categories</CardDescription>
