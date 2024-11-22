@@ -1,3 +1,5 @@
+"use client"
+
 import { BellRing, Check } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
@@ -5,14 +7,14 @@ import {
     CardContent,
     CardFooter,
 } from "@/components/ui/card"
-import getNotices from "@/lib/getNotices"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { useNotices } from "@/lib/useNotices"
 
 type CardProps = React.ComponentProps<typeof Card>
 
-export default async function Notifications({ className, ...props }: CardProps) {
-    const notices = await getNotices()
+export default function Notifications({ className, ...props }: CardProps) {
+    const { notices } = useNotices()
     return (
         <Card className={cn("w-[380px] border-none", className)} {...props}>
             <CardContent className="grid gap-4 pt-5">
@@ -28,7 +30,7 @@ export default async function Notifications({ className, ...props }: CardProps) 
                     </div>
                 </div>
                 <div>
-                    {notices?.reverse().slice(0, 3).map((notification: any) => (
+                    {notices?.slice(0, 3).reverse().map((notification: any) => (
                         <div
                             key={notification._id}
                             className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0"

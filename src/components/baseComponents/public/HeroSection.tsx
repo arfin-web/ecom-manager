@@ -1,7 +1,10 @@
+"use client"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { useProfile } from "@/lib/useProfile"
 
 export default function HeroSection() {
+    const { profile } = useProfile()
     return (
         <section className="w-full">
             <div className="container mx-auto px-4 md:px-6 flex flex-col items-center text-center space-y-6 pt-16 lg:pt-32 pb-10">
@@ -13,11 +16,17 @@ export default function HeroSection() {
                         Unlock the power of our cutting-edge SaaS solution to streamline your operations, boost productivity, and
                         drive growth.
                     </p>
-                    <div className="mx-auto w-[150px] pt-4">
-                        <Link href="/login">
-                            <Button size="lg" className="w-full font-bold">Get Started</Button>
-                        </Link>
-                    </div>
+                    {
+                        profile?.email ? <div className="mx-auto w-[150px] pt-4">
+                            <Link href="/dashboard">
+                                <Button size="lg" className="w-full font-bold">Dashboard</Button>
+                            </Link>
+                        </div> : <div className="mx-auto w-[150px] pt-4">
+                            <Link href="/login">
+                                <Button size="lg" className="w-full font-bold">Get Started</Button>
+                            </Link>
+                        </div>
+                    }
                 </div>
             </div>
         </section>
