@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -23,11 +25,11 @@ import {
     Tabs,
     TabsContent,
 } from "@/components/ui/tabs"
-import getCustomers from "@/lib/getCustomers"
+import { useCustomers } from "@/lib/useCustomers"
 import SetAdminForm from "./SetAdminForm"
 
-export default async function GeneralUsers() {
-    const customers = await getCustomers()
+export default function GeneralUsers() {
+    const { customers } = useCustomers()
     return (
         <div className="flex min-h-screen px-4 lg:px-6 flex-col bg-muted/40">
             <Tabs defaultValue="week">
